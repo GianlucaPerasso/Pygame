@@ -1,6 +1,7 @@
 
 # ----- Importa e inicia pacotes
 import pygame
+import random
 
 pygame.init()
 
@@ -23,8 +24,8 @@ brick = pygame.image.load('assets/img/parede-de-tijolos.png')
 brick_format = pygame.transform.scale(brick, (BRICK_WIDTH,BRICK_HEIGHT))
 prancha = pygame.image.load('assets/img/prancha.png')
 prancha_format = pygame.transform.scale(prancha, (PRANCHA_WIDTH,PRANCHA_HEIGHT))
-bola = pygame.image.load('assets/img/')
-bola.format = pygame.transform.scale(bola,BOLA_WIDTH,BOLA_HEIGHT)
+bola = pygame.image.load('assets/img/bola.jpg')
+bola_format = pygame.transform.scale(bola,(BOLA_WIDTH,BOLA_HEIGHT))
 font = pygame.font.SysFont(None, 48)
 cor_prancha = (160,32,240)
 x0=0
