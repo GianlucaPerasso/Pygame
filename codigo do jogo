@@ -29,3 +29,32 @@ i=4
 j=8
 
 
+class Prancha(pygame.sprite.Sprite):
+    
+    def _init_(self,img):
+        pygame.sprite.Sprite._init_(self)
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = WIDTH / 2
+        self.rect.bottom = HEIGHT - 10
+        self.speedx = 0
+
+    def update(self):
+        #----Atualiza a velocidade 
+        self.rect.x += self.speedx
+
+        #Mantem dentro da tela principal
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
+
+
+class Bola(pygame.sprite.Sprite):
+    def _init_(self,img,):
+        pygame.sprite.Sprite._init_(self)
+        self.image=img
+        self.rect=self.image.get_rect()
+        self.rect.x=
+        self.rect.bottom()
+
