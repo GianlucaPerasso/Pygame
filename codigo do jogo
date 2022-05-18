@@ -61,12 +61,82 @@ class Prancha(pygame.sprite.Sprite):
         if self.rect.left < 0:
             self.rect.left = 0
 
-
 class Bola(pygame.sprite.Sprite):
-    def _init_(self,img,):
-        pygame.sprite.Sprite._init_(self)
-        self.image=img
-        self.rect=self.image.get_rect()
-        self.rect.x=
-        self.rect.bottom()
+    def __init__(self,img,):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = img
+        self.rect = self.image.get_rect()
+        self.rect.x = 250
+        self.rect.bottom = HEIGHT - 30
+        self.speedx  = random.randit(0,600)
+        self.speedy = -10
+game=True
+#----variavel para ajuste de velocidade
+clock = pygame.time.Clock()
+FPS=30
+
+#----Criando um grupo com todas as sprites
+all_sprites = pygame.sprite.Group()
+
+#----Cria tijolos
+all_bricks = pygame.sprite.Group()
+for z in range(i):
+    for k in range (j):
+        brick=Bricks(brick_format)
+        all_bricks.add(brick)
+        all_sprites.add(brick)
+        x0+=75
+    x0=0
+    y0+=50
+
+#----Cria Jogaodor
+player = Prancha(prancha_format)
+all_sprites.add(player)
+
+#----Cria bola
+all_bolas = pygame.sprite.Group()
+bola = Bola(bola_format)
+all_sprites.add(bola)
+all_bolas.add(bola)
+
+# ===== Loop principal =====
+while game:
+    clock.tick(FPS)
+
+    # ----- Trata eventos
+    for event in pygame.event.get():
+        # ----- Verifica consequências
+        if event.type == pygame.QUIT:
+            game = False
+
+        #----Verifica se apertou algo
+        if event.type == pygame.KEYDOWN:
+            #----altera a velocidade.
+            if event.key == pygame.K_LEFT:
+                player.speedx -= 8
+            if event.key == pygame.K_RIGHT:
+                player.speedx += 8
+
+           # Verifica se soltou
+        if event.type == pygame.KEYUP:
+            #----altera a velocidade.
+            if event.key == pygame.K_LEFT:
+                player.speedx += 8
+            if event.key == pygame.K_RIGHT:
+                player.speedx -= 8
+    
+    #---- Atualiza de acordo com os comandos
+    all_sprites.update()
+
+    # ----- Gera saídas
+    window.fill((0, 0, 0))  # Preenche com a cor branca
+    window.blit(background_format, (0, 0)) # Preenche com a cor branca
+    all_bricks.draw(window)
+    all_sprites.draw(window)
+    pygame.display.update()
+
+# ===== Finalização =====
+pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+
 
