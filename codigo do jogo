@@ -15,12 +15,16 @@ BRICK_WIDTH = 75
 BRICK_HEIGHT = 50
 PRANCHA_WIDTH = 100
 PRANCHA_HEIGHT = 40
+BOLA_WIDTH = 10
+BOLA_HEIGHT = 10
 background = pygame.image.load('assets/img/fundo1.jpg').convert()
 background_format = pygame.transform.scale(background,(WIDTH,HEIGHT))
 brick = pygame.image.load('assets/img/parede-de-tijolos.png')
 brick_format = pygame.transform.scale(brick, (BRICK_WIDTH,BRICK_HEIGHT))
 prancha = pygame.image.load('assets/img/prancha.png')
 prancha_format = pygame.transform.scale(prancha, (PRANCHA_WIDTH,PRANCHA_HEIGHT))
+bola = pygame.image.load('assets/img/')
+bola.format = pygame.transform.scale(bola,BOLA_WIDTH,BOLA_HEIGHT)
 font = pygame.font.SysFont(None, 48)
 cor_prancha = (160,32,240)
 x0=0
@@ -125,9 +129,13 @@ while game:
                 player.speedx += 8
             if event.key == pygame.K_RIGHT:
                 player.speedx -= 8
-    
+
+    #--- verifica se colidiu com o tijolo
+    hits = pygame.sprite.groupcollide(all_bolas, all_bricks,False,True)
+
     #---- Atualiza de acordo com os comandos
     all_sprites.update()
+
 
     # ----- Gera saídas
     window.fill((0, 0, 0))  # Preenche com a cor branca
