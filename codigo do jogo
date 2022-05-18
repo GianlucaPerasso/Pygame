@@ -1,0 +1,31 @@
+
+# ----- Importa e inicia pacotes
+import pygame
+
+pygame.init()
+
+# ----- Gera tela principal
+WIDTH = 600
+HEIGHT = 500
+window = pygame.display.set_mode((WIDTH,HEIGHT))
+pygame.display.set_caption('Breaking Bricks')
+
+# ---- Inicia assets
+BRICK_WIDTH = 75
+BRICK_HEIGHT = 50
+PRANCHA_WIDTH = 100
+PRANCHA_HEIGHT = 40
+background = pygame.image.load('assets/img/fundo1.jpg').convert()
+background_format = pygame.transform.scale(background,(WIDTH,HEIGHT))
+brick = pygame.image.load('assets/img/parede-de-tijolos.png')
+brick_format = pygame.transform.scale(brick, (BRICK_WIDTH,BRICK_HEIGHT))
+prancha = pygame.image.load('assets/img/prancha.png')
+prancha_format = pygame.transform.scale(prancha, (PRANCHA_WIDTH,PRANCHA_HEIGHT))
+font = pygame.font.SysFont(None, 48)
+cor_prancha = (160,32,240)
+x0=0
+y0=50
+i=4
+j=8
+
+
