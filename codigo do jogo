@@ -160,3 +160,153 @@ for z in range (i):
     x0 = BRICK_WIDTH*2
     y0+= BRICK_HEIGHT + dy
 
+all_brick_cinza = pygame.sprite.Group()
+for l in range (j):
+    bloco_cinza = Invencible_Bricks(x0,y0)
+    all_brick_cinza.add(bloco_cinza)
+    all_sprites.add(bloco_cinza)
+    x0 +=BRICK_WIDTH + dx
+
+#----Cria Jogaodor
+player = Prancha(prancha_format)
+all_sprites.add(player)
+
+#----Cria bola
+all_bolas=pygame.sprite.Group()
+bola = Bolinha(bola_format)
+all_sprites.add(bola)
+all_bolas.add(bola)
+bolacount = 1
+
+#---Cria loot
+all_loot = pygame.sprite.Group()
+
+# ===== Loop principal =====
+while game:
+    clock.tick(FPS)
+
+    # ----- Trata eventos
+    for event in pygame.event.get():
+        # ----- Verifica consequências
+        if event.type == pygame.QUIT:
+            game = False
+
+        #----Verifica se apertou algo
+        if event.type == pygame.KEYDOWN:
+            #----altera a velocidade.
+            if event.key == pygame.K_LEFT:
+                player.speedx -= 16
+            if event.key == pygame.K_RIGHT:
+                player.speedx += 16
+
+           # Verifica se soltou
+        if event.type == pygame.KEYUP:
+            #----altera a velocidade.
+            if event.key == pygame.K_LEFT:
+                player.speedx += 16
+            if event.key == pygame.K_RIGHT:
+                player.speedx -= 16
+       
+    for bola in all_bolas:   
+        if bola.rect.y >= HEIGHT - BOLA_HEIGHT:
+            bola.kill()  
+            bolacount -= 1
+            if bolacount == 0:
+                game = False
+        if bola.rect.y <= 0:
+            bola.speedy = -bola.speedy
+        if bola.rect.x >= WIDTH - BOLA_WIDTH:
+            bola.speedx = -bola.speedx
+        if bola.rect.x <= 0:
+            bola.speedx = -bola.speedx  
+
+    hits = pygame.sprite.spritecollide(player,all_bolas,False)
+    for bola in hits:
+        prancha_sound.play()
+        bola.quique()
+
+
+    hits2 = pygame.sprite.groupcollide(all_bricks_rosa,all_bolas,True,False)
+    for bloco in hits2:
+        hitt_sound.play()
+        xx = bloco.rect.x 
+        yy = bloco.rect.y
+        bloco.kill()
+        # ---- Cria bolas novas aleatoriamente
+        numx = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]
+        sort = random.choice(numx)
+        if sort == 1:
+            loot = Loot(lot_box_format,xx,yy)
+            all_loot.add(loot)
+            all_sprites.add(loot)
+        for ball in hits2[bloco]:
+            if abs(ball.rect.x - bloco.rect.right) <= 6 or abs(ball.rect.x - bloco.rect.left) <= 6:
+               ball.speedx *= -1
+            else:
+                ball.quique()
+    hits3 = pygame.sprite.groupcollide(all_bricks_roxo,all_bolas,False,False)
+    for bloco in hits3:
+        hitt_sound.play()
+        xx = bloco.rect.x
+        yy = bloco.rect.y
+        bloco.kill()
+        brick_rosa_replace = Bricks(brick_rosa_format,xx,yy)
+        all_bricks_rosa.add(brick_rosa_replace)
+        all_sprites.add(brick_rosa_replace)
+        for ball in hits3[bloco]:
+            if abs(ball.rect.x - bloco.rect.right) <= 6 or abs(ball.rect.x - bloco.rect.left) <= 6:
+               ball.speedx *= -1
+            else:
+                ball.quique()
+
+    hits4 = pygame.sprite.groupcollide(all_bricks_vermelho,all_bolas,False,False)
+    for bloco in hits4:
+        hitt_sound.play()
+        xx = bloco.rect.x
+        yy = bloco.rect.y
+        bloco.kill()
+        brick_vermelho_replace = Bricks(brick_roxo_format,xx,yy)
+        all_bricks_roxo.add(brick_vermelho_replace)
+        all_sprites.add(brick_vermelho_replace)
+        
+        for ball in hits4[bloco]:
+            if abs(ball.rect.x - bloco.rect.right) <= 6 or abs(ball.rect.x - bloco.rect.left) <= 6:
+               ball.speedx *= -1
+            else:
+                ball.quique()
+           
+    hits5 = pygame.sprite.spritecollide(player,all_loot,True)
+    for t in  hits5:
+        loot_sound.play()
+        bolanova = Bolinha(bola_format)
+        all_bolas.add(bolanova) 
+        all_sprites.add(bolanova)
+        bolacount += 1
+    hits6 = pygame.sprite.groupcollide(all_brick_cinza,all_bolas,False,False)
+    for bloco in hits6:
+        metal_sound.play()
+        for ball in hits6[bloco]:
+            ball.quique()
+
+        
+
+
+    
+
+
+
+
+
+#---- Atualiza de acordo com os comandos
+    all_sprites.update()
+
+    # ----- Gera saídas
+    window.fill((0, 0, 0))  # Preenche com a cor branca
+    window.blit(background_format, (0, 0)) # Preenche com a cor branca
+    all_bolas.draw(window)
+    all_sprites.draw(window)
+    pygame.display.update()
+
+# ===== Finalização =====
+pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+
