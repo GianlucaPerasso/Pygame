@@ -59,12 +59,7 @@ ichap1 = 1
 jchap1 = 5
 ichap2 = 1
 jchap2 = 9
-icorp = 10
-jcorp = 10
-ipernas = 2
-jpernas = 7
-ipernas1 = 2
-jpernas1 = 3
+
 
 #---- Inicia estrutura de dados 
 #---- define as novas classe
