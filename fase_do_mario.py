@@ -1,11 +1,8 @@
 
 # ----- Importa e inicia pacotes
 
-from re import I
 import pygame
 import random
-
-from sqlalchemy import false
 
 pygame.init()
 
@@ -47,6 +44,9 @@ lot_box = pygame.image.load('assets/img/bola.png')
 lot_box_format = pygame.transform.scale(lot_box,(LOOT_BOX_WIDTH,LOOT_BOX_HEIGHT))
 font = pygame.font.SysFont(None, 48)
 cor_prancha = (160,32,240)
+hitt_sound = pygame.mixer.Sound('assets/img/sounds/hitt.wav')
+loot_sound = pygame.mixer.Sound('assets/img/sounds/loot.wav')
+prancha_sound = pygame.mixer.Sound('assets/img/sounds/pranchaa.wav')
 itotal = 2
 ibloc = itotal * BRICK_HEIGHT
 icab1 = 1 
@@ -103,8 +103,8 @@ class Bolinha(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
-        self.rect.x = 300
-        self.rect.y = 800
+        self.rect.x = 350
+        self.rect.y = 600
         vx=[10,-10]
         self.speedx = random.choice(vx)
         self.speedy = 10
@@ -433,17 +433,17 @@ while game:
         if event.type == pygame.KEYDOWN:
             #----altera a velocidade.
             if event.key == pygame.K_LEFT:
-                player.speedx -= 12
+                player.speedx -= 18
             if event.key == pygame.K_RIGHT:
-                player.speedx += 12
+                player.speedx += 18
 
            # Verifica se soltou
         if event.type == pygame.KEYUP:
             #----altera a velocidade.
             if event.key == pygame.K_LEFT:
-                player.speedx += 12
+                player.speedx += 18
             if event.key == pygame.K_RIGHT:
-                player.speedx -= 12
+                player.speedx -= 18
        
     for bola in all_bolas:   
         if bola.rect.y >= HEIGHT - BOLA_HEIGHT:
@@ -459,26 +459,34 @@ while game:
             bola.speedx = -bola.speedx  
 
     hits = pygame.sprite.spritecollide(player,all_bolas,False)
+    if hits:
+        prancha_sound.play()
     for bola in hits:
         bola.quique()
 
 
     hits2 = pygame.sprite.groupcollide(all_bricks_vermelho,all_bolas,True,False)
+    if hits2:
+        hitt_sound.play()
     for bloco in hits2:
-
         xx = bloco.rect.x
         yy = bloco.rect.y
         bloco.kill()
         # ---- Cria bolas novas aleatoriamente
-        numx = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]
+        numx = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]
         sort = random.choice(numx)
         if sort == 1:
             loot = Loot(lot_box_format,xx,yy)
             all_loot.add(loot)
             all_sprites.add(loot)
         for ball in hits2[bloco]:
-            ball.quique()        
+            if abs(ball.rect.x - bloco.rect.right) <= 4 or abs(ball.rect.x - bloco.rect.left) <= 4:
+               ball.speedx *= -1
+            else:
+                ball.quique()     
     hits3 = pygame.sprite.groupcollide(all_bricks_cor_de_pele,all_bolas,False,False)
+    if hits3:
+        hitt_sound.play()
     for bloco in hits3:
         xx = bloco.rect.x
         yy = bloco.rect.y
@@ -487,9 +495,14 @@ while game:
         all_sprites.add(brick_vermelho_replace)
         bloco.kill()
         for ball in hits3[bloco]:
-            ball.quique() 
+            if abs(ball.rect.x - bloco.rect.right) <= 5 or abs(ball.rect.x - bloco.rect.left) <= 5:
+               ball.speedx *= -1
+            else:
+                ball.quique()
 
     hits4 = pygame.sprite.groupcollide(all_bricks_marrom,all_bolas,False,False)
+    if hits4:
+        hitt_sound.play()
     for bloco in hits4:
         xx = bloco.rect.x
         yy = bloco.rect.y
@@ -497,10 +510,15 @@ while game:
         all_bricks_cor_de_pele.add(brick_cor_de_pele_replace)
         all_sprites.add(brick_cor_de_pele_replace)
         bloco.kill()
-        for bola in hits4[bloco]:
-            bola.quique() 
-            
+        for ball in hits4[bloco]:
+            if abs(ball.rect.x - bloco.rect.right) <= 5 or abs(ball.rect.x - bloco.rect.left) <= 5:
+               ball.speedx *= -1
+            else:
+                ball.quique()
+
     hits5 = pygame.sprite.spritecollide(player,all_loot,True)
+    if hits5:
+        loot_sound.play()
     for t in  hits5:
         bolanova = Bolinha(bola_format)
         all_bolas.add(bolanova) 
