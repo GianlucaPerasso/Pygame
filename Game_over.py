@@ -1,9 +1,6 @@
+
 import pygame
-
-
-
-
-def tela_de_inicio(window):
+def gameover(window):
     pygame.init()
 
 
@@ -16,9 +13,13 @@ def tela_de_inicio(window):
     background = pygame.image.load('assets/img/background.png').convert_alpha()
     background_format = pygame.transform.scale(background,(WIDTH,HEIGHT))
     font = pygame.font.Font('assets/font/04B_30__.TTF', 60)
-    titulo = font.render('BREAKING BRICKS',True,(0,0,0))
-    font2 = pygame.font.Font('assets/font/04B_30__.TTF', 30)
-    sub_titulo = font2.render('Aperte qualquer botao para comecar',True,(255,255,255))
+    titulo = font.render('GAME OVER ',True,(255,0,0))
+    font2 = pygame.font.Font('assets/font/04B_30__.TTF', 40)
+    jgnv = font2.render('DESEJA JOGAR NOVAMENTE ?  ',True,(255,255,255))
+    Fase1 = font2.render('Sim [S] ',True,(255,255,255))
+    fase2 = font2.render('NAO [N]  ',True,(255,255,255))
+
+
     rodando = True
 
     # ===== Loop principal =====
@@ -26,12 +27,17 @@ def tela_de_inicio(window):
     
         # ----- Trata eventos
         for event in pygame.event.get():
+            
             # ----- Verifica consequências
             if event.type == pygame.QUIT:
                 STATE = 'QUIT'
                 rodando = False
-            if event.type == pygame.KEYUP:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
                     STATE = 'escolha_fase'
+                    rodando = False
+                if event.key == pygame.K_n:
+                    STATE = 'QUIT'
                     rodando = False
 
     
@@ -41,7 +47,10 @@ def tela_de_inicio(window):
         window.fill((0, 0, 0))  # Preenche com a cor branca
         window.blit(background_format, (0, 0))
         window.blit(titulo, (100, 100))
-        window.blit(sub_titulo, (100, 200))
+        window.blit(Fase1, (100, 400))
+        window.blit(fase2, (100, 500))
+        window.blit(jgnv, (65, 300))
+    
         # Desenhando meteoros
 
         pygame.display.update()  # Mostra o novo frame para o jogador
