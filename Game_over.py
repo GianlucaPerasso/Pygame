@@ -55,6 +55,5 @@ def gameover(window):
 
         pygame.display.update()  # Mostra o novo frame para o jogador
 
-    # ===== Finalização =====
-    pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+  
     return STATE
