@@ -213,6 +213,7 @@ def fase3(window):
                 bolacount -= 1
                 if bolacount == 0:
                     game = False
+                    STATE = 'Game_over'
             if bola.rect.y <= 0:
                 bola.speedy = -bola.speedy
             if bola.rect.x >= WIDTH - BOLA_WIDTH:
@@ -259,9 +260,7 @@ def fase3(window):
                 all_bolas.add(bolanova) 
                 all_sprites.add(bolanova)
                 bolacount += 1 
-        if all_bolas == 0:
-            STATE = 'Game_over'
-            game = False
+      
 
 
     #---- Atualiza de acordo com os comandos
@@ -275,8 +274,7 @@ def fase3(window):
         pygame.display.update()
         
 
-    # ===== Finalização =====
-    pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+
     return STATE
 
 

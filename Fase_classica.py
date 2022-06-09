@@ -297,9 +297,7 @@ def fase2(window):
             metal_sound.play()
             for ball in hits6[bloco]:
                 ball.quique()
-    if all_bolas == 0:
-        STATE = 'Game_over'
-        game = False
+   
             
 
 
