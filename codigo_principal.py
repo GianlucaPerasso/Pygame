@@ -16,9 +16,12 @@ WIDTH = 960
 HEIGHT = 1023
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('BREAKING BRICKS')
+Sound  = pygame.mixer.Sound('assets/img/sounds/mixkit-suspense-mystery-bass-685.wav')
+
 
 STATE = 'inicio'
 while STATE != 'QUIT':
+    Sound.play()
     if STATE == 'inicio':
         STATE = tela_de_inicio(window)
     elif STATE == 'escolha_fase':
