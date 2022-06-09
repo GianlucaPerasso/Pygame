@@ -291,7 +291,7 @@ def fase2(window):
                 bolanova = Bolinha(bola_format,random.choice(nx),random.choice(ny))
                 all_bolas.add(bolanova) 
                 all_sprites.add(bolanova)
-                bolacount += rx-1
+                bolacount += 1
         hits6 = pygame.sprite.groupcollide(all_brick_cinza,all_bolas,False,False)
         for bloco in hits6:
             metal_sound.play()
@@ -319,8 +319,6 @@ def fase2(window):
         all_sprites.draw(window)
         pygame.display.update()
 
-    # ===== Finalização =====
-    pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
     return STATE
 
 

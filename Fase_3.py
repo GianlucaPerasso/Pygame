@@ -258,7 +258,7 @@ def fase3(window):
                 bolanova = Bolinha(bola_format,random.choice(nx),random.choice(ny))
                 all_bolas.add(bolanova) 
                 all_sprites.add(bolanova)
-                bolacount += rx -1 
+                bolacount += 1 
         if all_bolas == 0:
             STATE = 'Game_over'
             game = False

@@ -516,7 +516,7 @@ def fase1(window):
                 bolanova = Bolinha(bola_format,random.choice(nx),random.choice(ny))
                 all_bolas.add(bolanova) 
                 all_sprites.add(bolanova)
-                bolacount += rx-1
+                bolacount += 1
         if all_bricks_cor_de_pele == 0:
             STATE = 'Game_over'
             game = False
@@ -544,7 +544,5 @@ def fase1(window):
         all_sprites.draw(window)
         pygame.display.update()
 
-    # ===== Finalização =====
-    pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
     return STATE
 
